@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class WeaponAnimator : MonoBehaviour
 {
+    private int _atackID = 0;
+
     [SerializeField]
     private Animator _weaponAnimator;
 
@@ -28,7 +30,13 @@ public class WeaponAnimator : MonoBehaviour
 
     public void PlayAttackAnim()
     {
-        _weaponAnimator.SetFloat("AttackID", Random.Range(0, _attackCount));
+        if (_playerData._movementDirection != Vector3.zero)
+            _atackID++;
+        
+        if (_atackID >= _attackCount || _playerData._movementDirection == Vector3.zero)
+            _atackID = 0;
+
+        _weaponAnimator.SetFloat("AttackID", _atackID);
         _weaponAnimator.CrossFade("Attacking", 0.1f);
     }
 
